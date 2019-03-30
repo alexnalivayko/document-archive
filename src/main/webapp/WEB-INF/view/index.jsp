@@ -4,7 +4,7 @@
 <html>
 	<head>
 		<title><spring:message code="dashboard.page-name"/></title>
-		<link rel="stylesheet" href="/static/css/style.css">
+		<link type="text/css" rel="stylesheet" href="/static/css/style.css" />
 	</head>
 	<body>
 		<jsp:include page="include/header.jsp" />
