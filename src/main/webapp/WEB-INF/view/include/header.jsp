@@ -3,7 +3,7 @@
 <table>
 	<tr>
 		<td>
-			<a href="<c:url value="/dashboard"/>"><spring:message code="header.dashboard"/></a>
+			<a href="<c:url value="/dashboard/index"/>"><spring:message code="header.dashboard"/></a>
 		</td>
 	</tr>
 </table>
