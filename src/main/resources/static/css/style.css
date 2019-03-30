@@ -3,4 +3,10 @@
     left: 0; bottom: 0;
     padding: 8px;
     width: 100%;
+    color: gray;
+}
+
+/* For CSS test */
+.custom-h1 {
+    color: red;
 }
