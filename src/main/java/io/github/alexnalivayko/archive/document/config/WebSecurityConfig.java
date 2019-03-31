@@ -29,11 +29,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.hasRole("USER")
 				.and()
 				.formLogin()
-				.defaultSuccessUrl("/dashboard/index")
+				.successHandler(authenticationSuccessHandler())
 				.loginPage("/login")
 				.and()
+				.csrf()
+				.disable()
 				.logout()
-				.permitAll();
+				.and()
+				.headers()
+				.frameOptions()
+				.sameOrigin();
 	}
 
 	@Bean
