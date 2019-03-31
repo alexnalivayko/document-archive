@@ -4,6 +4,7 @@
 	<tr>
 		<td>
 			<a href="<c:url value="/dashboard/index"/>"><spring:message code="header.dashboard"/></a>
+			<a href="<c:url value="/dashboard/upload"/>"><spring:message code="header.upload-document"/></a>
 		</td>
 	</tr>
 </table>
