@@ -8,7 +8,7 @@
     </head>
     <body>
         <div>
-            <h1 class="custom-h1"><spring:message code="login.title"/></h1>
+            <h1><spring:message code="login.title"/></h1>
             <form action="<c:url value="/login"/>" method="POST">
                 <div><label for="username"><spring:message code="login.username.label"/></label>
                     <input type="text" id="username" name="username">
@@ -20,6 +20,9 @@
 
                 <button type="submit"><spring:message code="login.submit.button"/></button>
             </form>
+            <div class="footer">
+                <jsp:include page="include/footer.jsp" />
+            </div>
         </div>
     </body>
 </html>
