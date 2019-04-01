@@ -11,7 +11,6 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
@@ -21,16 +20,20 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http
-				.csrf()
-				.requireCsrfProtectionMatcher(new AntPathRequestMatcher("**/login"))
-				.and()
 				.authorizeRequests()
-				.antMatchers("/dashboard/index")
-				.hasRole("USER")
+				.requestMatchers()
+				.denyAll()
+				.antMatchers("/console")
+				.access("hasRole('ADMIN')")
+				.antMatchers("/static/**")
+				.permitAll()
+				.anyRequest()
+				.access("hasRole('USER')")
 				.and()
 				.formLogin()
 				.successHandler(authenticationSuccessHandler())
 				.loginPage("/login")
+				.permitAll()
 				.and()
 				.csrf()
 				.disable()

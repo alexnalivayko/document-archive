@@ -1,7 +1,7 @@
 server:
   port: 8080
-  servlet:
-    context-path: /document-archive
+#  servlet:
+#    context-path: /document-archive
 
 spring:
   http:
