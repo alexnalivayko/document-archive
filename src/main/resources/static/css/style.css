@@ -5,7 +5,26 @@
     width: 99%;
 }
 
-/* For CSS test */
-.custom-h1 {
-    color: red;
+.left-block {
+    width: 5%;
+    text-align: left;
+    alignment: left;
+}
+
+.left-block a {
+    display: inline;
+    text-decoration: none;
+    position: relative;
+    list-style-type: none;
+}
+
+.left-block a:not(:first-child):not(.dropdown-item), .dropdown {
+    border-left: 2px solid gray;
+    padding: 1px 5px;
+}
+
+.right-block {
+    width: 5%;
+    text-align: right;
+    alignment: right;
 }
