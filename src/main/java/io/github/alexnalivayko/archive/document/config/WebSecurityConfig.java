@@ -32,7 +32,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.and()
 				.formLogin()
 				.successHandler(authenticationSuccessHandler())
-				.loginPage("/login")
+				.loginPage("/dashboard/login")
 				.permitAll()
 				.and()
 				.csrf()

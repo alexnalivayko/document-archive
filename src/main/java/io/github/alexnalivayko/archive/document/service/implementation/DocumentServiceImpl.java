@@ -6,16 +6,17 @@ import io.github.alexnalivayko.archive.document.service.DocumentService;
 import io.github.alexnalivayko.archive.document.type.DocumentType;
 import io.github.alexnalivayko.archive.document.type.OriginalFormatType;
 import io.github.alexnalivayko.archive.document.utils.PathConverter;
+import io.github.alexnalivayko.archive.document.utils.implementation.DefaultCryptoUtils;
 import io.github.alexnalivayko.archive.document.utils.implementation.DefaultFileExtensionResolver;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.annotation.PostConstruct;
 import java.io.*;
 import java.nio.file.Path;
 import java.text.SimpleDateFormat;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -30,6 +31,9 @@ public class DocumentServiceImpl implements DocumentService {
 	private DocumentRepository documentRepository;
 
 	@Autowired
+	private DefaultCryptoUtils defaultCryptoUtils;
+
+	@Autowired
 	private DefaultFileExtensionResolver extensionResolver;
 
 	@Override
@@ -39,79 +43,35 @@ public class DocumentServiceImpl implements DocumentService {
 
 	@Override
 	public Document createWithParameters(String name,
-	                                     DocumentType documentType,
-	                                     OriginalFormatType originalFormatType,
-	                                     Path directory,
-	                                     Long size) {
-		return new Document(name, documentType, originalFormatType, directory, size);
+										 DocumentType documentType,
+										 OriginalFormatType originalFormatType,
+										 Path directory,
+										 Long size) {
+		return Document.builder()
+				.name(name)
+				.documentType(documentType)
+				.originalFormatType(originalFormatType)
+				.directory(directory)
+				.size(size)
+				.build();
 	}
 
 	@Override
 	public Document createFromFile(MultipartFile uploadFile,
-								   OriginalFormatType originalFormatType,
-								   DocumentType documentType) {
-		return new Document(uploadFile.getOriginalFilename(), documentType, originalFormatType, null, uploadFile.getSize());
-	}
-
-	@Override
-	public void deleteById(Long id) {
-		documentRepository.deleteById(id);
-	}
-
-	@Override
-	public Document getById(Long id) {
-		return documentRepository.getById(id);
-	}
-
-	@Override
-	public Document getByName(String name) {
-		return documentRepository.findByNameLike(name);
-	}
-
-	@Override
-	public List getAll() {
-		return Collections.singletonList(documentRepository.findAll());
-	}
-
-	@Override
-	public void setDocumentDirectoryByType(DocumentType documentType, Document document) {
-		switch (documentType) {
-			case INVOICE:
-				document.setDirectory(PathConverter.getDocPathByType("Invoices"));
-				break;
-			case PACKING_LIST:
-				document.setDirectory(PathConverter.getDocPathByType("Packing lists"));
-				break;
-			case BILL_FOR_PAYMENT:
-				document.setDirectory(PathConverter.getDocPathByType("Bills for payment"));
-				break;
-			case CONTRACT:
-				document.setDirectory(PathConverter.getDocPathByType("Contracts"));
-				break;
-			case ACCEPTANCE_ACT:
-				document.setDirectory(PathConverter.getDocPathByType("Acceptance acts"));
-				break;
-			case FOUNDING_DOCUMENT:
-				document.setDirectory(PathConverter.getDocPathByType("Founding documents"));
-				break;
-			case PROTOCOL:
-				document.setDirectory(PathConverter.getDocPathByType("Protocols"));
-				break;
-			case DECREE:
-				document.setDirectory(PathConverter.getDocPathByType("Decrees"));
-				break;
-			case OTHER:
-				document.setDirectory(PathConverter.getDocPathByType("Others"));
-				break;
-			default:
-				throw new IllegalArgumentException();
-		}
+	                               OriginalFormatType originalFormatType,
+	                               DocumentType documentType) {
+		return Document.builder()
+				.documentType(documentType)
+				.originalFormatType(originalFormatType)
+				.size(uploadFile.getSize())
+				.build();
 	}
 
 	@Override
 	public void uploadDocument(MultipartFile uploadFile,
-							   String customFileName,
-							   Document document) throws Exception {
+	                           String customFileName,
+	                           Document document) throws Exception {
+		byte[] docBytes = uploadFile.getBytes();
 
 		if (customFileName == null || customFileName.equals("")) {
 			document.setName(uploadFile.getOriginalFilename());
@@ -121,15 +81,24 @@ public class DocumentServiceImpl implements DocumentService {
 
 		File dir = new File(document.getDirectory().toString());
 
-		if (dir.exists()) {
+		if (!dir.exists()) {
 			dir.mkdirs();
 		}
 
 		File finalFile = new File(dir.getAbsolutePath() + File.separator + document.getName());
 		BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(finalFile));
+		stream.write(defaultCryptoUtils.encrypt(docBytes));
 		documentRepository.save(document);
 		stream.flush();
 		stream.close();
+	}
+
+	@Override
+	public void deleteById(Long id) {
+		Document document = documentRepository.getById(id);
+
+		documentRepository.delete(document);
+		log.info("Document [id={}, name={}] has been deleted.", document.getId(), document.getName());
 	}
 
 	@Override
@@ -168,6 +137,86 @@ public class DocumentServiceImpl implements DocumentService {
 		}
 
 		return zipFile;
+	}
+
+	@Override
+	public void setDocumentDirectoryByType(DocumentType documentType, Document document) {
+		switch (documentType) {
+			case INVOICE:
+				document.setDirectory(PathConverter.getDocPathByType("Invoices"));
+				break;
+			case PACKING_LIST:
+				document.setDirectory(PathConverter.getDocPathByType("Packing lists"));
+				break;
+			case BILL_FOR_PAYMENT:
+				document.setDirectory(PathConverter.getDocPathByType("Bills for payment"));
+				break;
+			case CONTRACT:
+				document.setDirectory(PathConverter.getDocPathByType("Contracts"));
+				break;
+			case ACCEPTANCE_ACT:
+				document.setDirectory(PathConverter.getDocPathByType("Acceptance acts"));
+				break;
+			case FOUNDING_DOCUMENT:
+				document.setDirectory(PathConverter.getDocPathByType("Founding documents"));
+				break;
+			case PROTOCOL:
+				document.setDirectory(PathConverter.getDocPathByType("Protocols"));
+				break;
+			case DECREE:
+				document.setDirectory(PathConverter.getDocPathByType("Decrees"));
+				break;
+			case OTHER:
+				document.setDirectory(PathConverter.getDocPathByType("Others"));
+				break;
+			default:
+				throw new IllegalArgumentException();
+		}
+	}
+
+	@Override
+	public List<Document> getAll() {
+		return documentRepository.findAllByDocumentTypeNot(DocumentType.PATTERN);
+	}
+
+	// TODO Method is called 2 times
+	@PostConstruct
+	private void fillDocumentPatterns() {
+		File pathToDocumentPattern = new File(String.valueOf(PathConverter.getDocPathByType("Patterns")));
+
+		if (pathToDocumentPattern.isDirectory()) {
+			for (File pattern : Objects.requireNonNull(pathToDocumentPattern.listFiles())) {
+				Document tempDoc = documentRepository.findByNameLike(pattern.getName());
+
+				if (tempDoc == null) {
+					tempDoc = Document.builder()
+							.name(pattern.getName())
+							.documentType(DocumentType.PATTERN)
+							.originalFormatType(OriginalFormatType.ELECTRONIC)
+							.directory(PathConverter.getDocPathByType("Patterns"))
+							.size(pattern.length())
+							.build();
+					documentRepository.save(tempDoc);
+				} else {
+					log.info("This document {} will be added before!", tempDoc.getName());
+				}
+			}
+		}
+	}
+
+	@Override
+	public Document getById(Long id) {
+		return documentRepository.getById(id);
+	}
+
+	@Override
+	public Document getByName(String name) {
+		return documentRepository.findByNameLike(name);
+	}
+
+	@Override
+	public List<Document> getAllDocumentsByType(DocumentType type) {
+		return documentRepository.findAllByDocumentType(type);
 	}
 
 	@Override

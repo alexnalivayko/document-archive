@@ -9,8 +9,9 @@ import java.util.List;
 
 @Repository
 public interface DocumentRepository extends CrudRepository<Document, Long> {
-
 	Document findByNameLike(String name);
+
+	List<Document> findAll();
 
 	Document getById(Long id);
 
