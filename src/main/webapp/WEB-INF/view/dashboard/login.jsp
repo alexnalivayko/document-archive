@@ -7,15 +7,14 @@
         <link type="text/css" rel="stylesheet" href="/static/css/style.css" />
     </head>
     <body>
-        <div>
+        <div class="login-form">
             <h1><spring:message code="login.title"/></h1>
             <form action="<c:url value="/dashboard/login"/>" method="POST">
-                <div><label for="username"><spring:message code="login.username.label"/></label>
-                    <input type="text" id="username" name="username">
+                <div>
+                    <input class="login-input" type="text" id="username" name="username" placeholder="<spring:message code="login.username.label"/>">
                 </div>
                 <div>
-                    <label for="pwd"><spring:message code="login.password.label"/></label>
-                    <input type="password" id="pwd" name="password">
+                    <input class="login-input" type="password" id="pwd" name="password" placeholder="<spring:message code="login.password.label"/>">
                 </div>
 
                 <button type="submit"><spring:message code="login.submit.button"/></button>

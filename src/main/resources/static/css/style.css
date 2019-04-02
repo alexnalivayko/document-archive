@@ -5,6 +5,24 @@
     width: 99%;
 }
 
+.login-form {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin: -140px 0 0 -182px;
+}
+
+.login-input {
+    outline: none;
+    display: block;
+    width: 100%;
+    margin: 0 0 13px;
+    padding: 7px 12px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    font-size: 14px;
+}
+
 .left-block {
     width: 5%;
     text-align: left;
@@ -27,4 +45,33 @@
     width: 5%;
     text-align: right;
     alignment: right;
+}
+
+.tg  {
+    border-collapse:collapse;
+    border-spacing:0;
+    border:none;
+}
+
+.tg td {
+    padding:5px 10px;
+    border-style:solid;
+    border-width:0;
+    overflow:hidden;
+    word-break:normal;
+}
+
+.tg th {
+    font-weight:normal;
+    padding:5px 10px;
+    border-style:solid;
+    border-width:0;
+    overflow:hidden;
+    word-break:normal;
+    text-align:left;
+    vertical-align:top
+}
+
+.max-size {
+    width: 90%;
 }
