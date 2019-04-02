@@ -9,6 +9,7 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.nio.file.Path;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Entity
@@ -31,7 +32,7 @@ public class Document extends AbstractEntity implements Serializable {
 	private OriginalFormatType originalFormatType;
 
 	@Column(name = "date_upload", updatable = false)
-	private Date dateUpload;
+	private String dateUpload = new SimpleDateFormat("dd-MM-YYYY HH:mm:ss").format(new Date());
 
 	@Column(name = "directory")
 	@Convert(converter = PathConverter.class)
@@ -51,7 +52,6 @@ public class Document extends AbstractEntity implements Serializable {
 		this.name = name;
 		this.documentType = documentType;
 		this.originalFormatType = originalFormatType;
-		this.dateUpload = new Date();
 		this.directory = directory;
 		this.size = size;
 	}
