@@ -9,7 +9,7 @@
     <body>
         <div>
             <h1><spring:message code="login.title"/></h1>
-            <form action="<c:url value="/login"/>" method="POST">
+            <form action="<c:url value="/dashboard/login"/>" method="POST">
                 <div><label for="username"><spring:message code="login.username.label"/></label>
                     <input type="text" id="username" name="username">
                 </div>
