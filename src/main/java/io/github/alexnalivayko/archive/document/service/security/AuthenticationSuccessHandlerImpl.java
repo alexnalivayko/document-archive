@@ -52,7 +52,7 @@ public class AuthenticationSuccessHandlerImpl implements AuthenticationSuccessHa
 														.collect(Collectors.toSet());
 
 		if (authorities.contains("ROLE_ADMIN"))
-			return "/console";
+			return "/dashboard/admin";
 		else if (authorities.contains("ROLE_USER"))
 			return "/dashboard/index";
 
