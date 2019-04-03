@@ -44,8 +44,6 @@ public class DashboardController {
 
 	@GetMapping({"/dashboard/", "/dashboard/index"})
 	public String dashboardPage(Map model) {
-		model.put("countDocuments", documentService.getAll().size());
-
 		return "dashboard/index";
 	}
 
@@ -58,14 +56,14 @@ public class DashboardController {
 	public String uploadDocument(Map model) {
 		fillUploadPage(model);
 
-		return "/dashboard/upload";
+		return "dashboard/upload";
 	}
 
 	@GetMapping("/dashboard/patterns")
 	public String downloadDocumentPatterns(Map model) {
 		model.put("patterns", documentService.getAllDocumentsByType(DocumentType.PATTERN));
 
-		return "/dashboard/patterns";
+		return "dashboard/patterns";
 	}
 
 	@PostMapping("/dashboard/upload")
@@ -111,7 +109,7 @@ public class DashboardController {
 
 		fillUploadPage(model);
 
-		return "/dashboard/upload";
+		return "dashboard/upload";
 	}
 
 	@GetMapping("/dashboard/view/{scope}/all")
@@ -154,7 +152,7 @@ public class DashboardController {
 				throw new IllegalArgumentException();
 		}
 
-		return "/dashboard/view";
+		return "dashboard/view";
 	}
 
 	@GetMapping("/dashboard/delete/{id}")
@@ -167,14 +165,14 @@ public class DashboardController {
 		try {
 			FileUtils.forceDelete(new File(pathToDeleteFile + File.separator + filename));
 			documentService.deleteById(id);
+			model.put("success", filename);
 		} catch (IOException e) {
-			e.printStackTrace();
+			model.put("error", e.getMessage());
 		}
 
-		model.put("success", filename);
 		fillViewPage(model, documentService.getAll());
 
-		return "/dashboard/view";
+		return "dashboard/view";
 	}
 
 	@GetMapping("/dashboard/download/{filename}")
@@ -201,6 +199,7 @@ public class DashboardController {
 
 	private void fillViewPage(Map model, List<Document> documents) {
 		model.put("documents", documents);
+		model.put("countDocuments", documents.size());
 	}
 
 	@Autowired

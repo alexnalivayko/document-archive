@@ -55,7 +55,18 @@ public class Document extends AbstractEntity implements Serializable {
 		this.name = name;
 		this.documentType = documentType;
 		this.originalFormatType = originalFormatType;
-		this.dateUpload = dateUpload;
+		this.directory = directory;
+		this.size = size;
+	}
+
+	public Document(String name,
+					DocumentType documentType,
+					OriginalFormatType originalFormatType,
+					Path directory,
+					Long size) {
+		this.name = name;
+		this.documentType = documentType;
+		this.originalFormatType = originalFormatType;
 		this.directory = directory;
 		this.size = size;
 	}
