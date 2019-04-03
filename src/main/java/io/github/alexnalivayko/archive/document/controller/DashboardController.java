@@ -44,8 +44,6 @@ public class DashboardController {
 
 	@GetMapping({"/dashboard/", "/dashboard/index"})
 	public String dashboardPage(Map model) {
-		model.put("countDocuments", documentService.getAll().size());
-
 		return "dashboard/index";
 	}
 
@@ -167,11 +165,11 @@ public class DashboardController {
 		try {
 			FileUtils.forceDelete(new File(pathToDeleteFile + File.separator + filename));
 			documentService.deleteById(id);
+			model.put("success", filename);
 		} catch (IOException e) {
-			e.printStackTrace();
+			model.put("error", e.getMessage());
 		}
 
-		model.put("success", filename);
 		fillViewPage(model, documentService.getAll());
 
 		return "dashboard/view";
@@ -201,6 +199,7 @@ public class DashboardController {
 
 	private void fillViewPage(Map model, List<Document> documents) {
 		model.put("documents", documents);
+		model.put("countDocuments", documents.size());
 	}
 
 	@Autowired
