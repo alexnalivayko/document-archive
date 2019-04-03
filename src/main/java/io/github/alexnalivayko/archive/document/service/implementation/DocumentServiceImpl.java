@@ -157,6 +157,9 @@ public class DocumentServiceImpl implements DocumentService {
 			case ACCEPTANCE_ACT:
 				document.setDirectory(PathConverter.getDocPathByType("Acceptance acts"));
 				break;
+			case PAYMENT:
+				document.setDirectory(PathConverter.getDocPathByType("Payment"));
+				break;
 			case FOUNDING_DOCUMENT:
 				document.setDirectory(PathConverter.getDocPathByType("Founding documents"));
 				break;

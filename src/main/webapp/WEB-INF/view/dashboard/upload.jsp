@@ -16,6 +16,13 @@
             </div>
         </c:if>
 
+        <c:if test="${error != null}">
+            <div style="color: red">
+                <h4><spring:message code="upload.form.error.info"/></h4>
+                <p><spring:message code="upload.form.filename"/> ${error}</p>
+            </div>
+        </c:if>
+
         <form role="form" method="POST" enctype="multipart/form-data" action="<c:url value="/dashboard/upload"/>">
             <table class="tg">
                 <tr>
@@ -39,6 +46,9 @@
                         </option>
                         <option value="ACCEPTANCE_ACT">
                             <spring:message code="upload.form.select.document-type.acceptance-act"/>
+                        </option>
+                        <option value="PAYMENT">
+                            <spring:message code="upload.form.select.document-type.payment"/>
                         </option>
                         <option value="FOUNDING_DOCUMENT">
                             <spring:message code="upload.form.select.document-type.founding-document"/>

@@ -135,6 +135,9 @@ public class DashboardController {
 			case "acceptance-act":
 				fillViewPage(model, documentService.getAllDocumentsByType(DocumentType.ACCEPTANCE_ACT));
 				break;
+			case "payment":
+				fillViewPage(model, documentService.getAllDocumentsByType(DocumentType.PAYMENT));
+				break;
 			case "founding-document":
 				fillViewPage(model, documentService.getAllDocumentsByType(DocumentType.FOUNDING_DOCUMENT));
 				break;
