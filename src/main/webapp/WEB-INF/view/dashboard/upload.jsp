@@ -24,7 +24,7 @@
         </c:if>
 
         <form role="form" method="POST" enctype="multipart/form-data" action="<c:url value="/dashboard/upload"/>">
-            <table class="tg">
+            <table class="upload-tg">
                 <tr>
                     <th><label for="inputName"><spring:message code="upload.form.filename"/></label></th>
                     <th><input type="text" name="fileName" class="max-size" id="inputName"></th>

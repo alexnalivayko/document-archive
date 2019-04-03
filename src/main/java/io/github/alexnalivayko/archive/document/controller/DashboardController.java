@@ -58,14 +58,14 @@ public class DashboardController {
 	public String uploadDocument(Map model) {
 		fillUploadPage(model);
 
-		return "/dashboard/upload";
+		return "dashboard/upload";
 	}
 
 	@GetMapping("/dashboard/patterns")
 	public String downloadDocumentPatterns(Map model) {
 		model.put("patterns", documentService.getAllDocumentsByType(DocumentType.PATTERN));
 
-		return "/dashboard/patterns";
+		return "dashboard/patterns";
 	}
 
 	@PostMapping("/dashboard/upload")
@@ -111,7 +111,7 @@ public class DashboardController {
 
 		fillUploadPage(model);
 
-		return "/dashboard/upload";
+		return "dashboard/upload";
 	}
 
 	@GetMapping("/dashboard/view/{scope}/all")
@@ -154,7 +154,7 @@ public class DashboardController {
 				throw new IllegalArgumentException();
 		}
 
-		return "/dashboard/view";
+		return "dashboard/view";
 	}
 
 	@GetMapping("/dashboard/delete/{id}")
@@ -174,7 +174,7 @@ public class DashboardController {
 		model.put("success", filename);
 		fillViewPage(model, documentService.getAll());
 
-		return "/dashboard/view";
+		return "dashboard/view";
 	}
 
 	@GetMapping("/dashboard/download/{filename}")
