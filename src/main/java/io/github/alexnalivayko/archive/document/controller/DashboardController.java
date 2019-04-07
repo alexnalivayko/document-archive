@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
+import javax.annotation.PostConstruct;
 import javax.servlet.ServletContext;
 import java.io.*;
 import java.nio.file.Files;
@@ -200,6 +201,11 @@ public class DashboardController {
 	private void fillViewPage(Map model, List<Document> documents) {
 		model.put("documents", documents);
 		model.put("countDocuments", documents.size());
+	}
+
+	@PostConstruct
+	private void fillDocumentPatterns() {
+		documentService.findAndCreateDocumentPatterns();
 	}
 
 	@Autowired

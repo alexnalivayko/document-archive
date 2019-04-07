@@ -13,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.annotation.PostConstruct;
 import java.io.*;
 import java.nio.file.Path;
 import java.text.SimpleDateFormat;
@@ -182,22 +181,21 @@ public class DocumentServiceImpl implements DocumentService {
 		return documentRepository.findAllByDocumentTypeNot(DocumentType.PATTERN);
 	}
 
-	// TODO Method is called 2 times
-	@PostConstruct
-	private void fillDocumentPatterns() {
-		File pathToDocumentPattern = new File(String.valueOf(PathConverter.getDocPathByType("Patterns")));
+	public void findAndCreateDocumentPatterns() {
+		Path patternPath = PathConverter.getDocPathByType("Patterns");
+		File pathToDocumentPattern = new File(String.valueOf(patternPath));
 
 		if (pathToDocumentPattern.isDirectory()) {
-			for (File pattern : Objects.requireNonNull(pathToDocumentPattern.listFiles())) {
-				Document tempDoc = documentRepository.findByNameLike(pattern.getName());
+			for (File docPattern : pathToDocumentPattern.listFiles()) {
+				Document tempDoc = documentRepository.findByNameLike(docPattern.getName());
 
 				if (tempDoc == null) {
 					tempDoc = Document.builder()
-							.name(pattern.getName())
+							.name(docPattern.getName())
 							.documentType(DocumentType.PATTERN)
 							.originalFormatType(OriginalFormatType.ELECTRONIC)
-							.directory(PathConverter.getDocPathByType("Patterns"))
-							.size(pattern.length())
+							.directory(patternPath)
+							.size(docPattern.length())
 							.build();
 					documentRepository.save(tempDoc);
 				} else {
