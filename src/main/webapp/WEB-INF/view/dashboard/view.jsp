@@ -8,7 +8,7 @@
 	</head>
 	<body>
 		<jsp:include page="include/header.jsp" />
-		<h1><spring:message code="view.documents.title"/></h1>
+		<h1><spring:message code="view.documents.box.title"/></h1>
 		<c:if test="${success != null}">
 			<div style="color: green">
 				<h4><spring:message code="view.delete.success.info"/></h4>
@@ -21,10 +21,44 @@
 				<p><spring:message code="view.delete.filename"/> ${error}</p>
 			</div>
 		</c:if>
+		<div class="view-documents-block">
+			<a href="<c:url value="/dashboard/view/invoice/all"/>">
+				<spring:message code="upload.form.select.document-type.invoice"/>
+			</a>
+			<a href="<c:url value="/dashboard/view/packing-list/all"/>">
+				<spring:message code="upload.form.select.document-type.packing-list"/>
+			</a>
+			<a href="<c:url value="/dashboard/view/bill-for-payment/all"/>">
+				<spring:message code="upload.form.select.document-type.bill-for-payment"/>
+			</a>
+			<a href="<c:url value="/dashboard/view/contract/all"/>">
+				<spring:message code="upload.form.select.document-type.contract"/>
+			</a>
+			<a href="<c:url value="/dashboard/view/acceptance-act/all"/>">
+				<spring:message code="upload.form.select.document-type.acceptance-act"/>
+			</a>
+			<a href="<c:url value="/dashboard/view/payment/all"/>">
+				<spring:message code="upload.form.select.document-type.payment"/>
+			</a>
+			<a href="<c:url value="/dashboard/view/founding-document/all"/>">
+				<spring:message code="upload.form.select.document-type.founding-document"/>
+			</a>
+			<a href="<c:url value="/dashboard/view/protocol/all"/>">
+				<spring:message code="upload.form.select.document-type.protocol"/>
+			</a>
+			<a href="<c:url value="/dashboard/view/decree/all"/>">
+				<spring:message code="upload.form.select.document-type.decree"/>
+			</a>
+			<a href="<c:url value="/dashboard/view/other/all"/>">
+				<spring:message code="upload.form.select.document-type.other"/>
+			</a>
+		</div>
+		<br/>
 		<div>
 			<table class="view-tg">
 			<thead style="background-color: #dddddd">
 				<tr>
+					<th><spring:message code="viev.table.number.tr"/></th>
 					<th><spring:message code="view.table.document-name.tr"/></th>
 					<th><spring:message code="view.table.directory.tr"/></th>
 					<th><spring:message code="view.table.date.tr"/></th>
@@ -38,12 +72,13 @@
 				<c:choose>
 					<c:when test="${empty documents}">
 					<tr>
-						<td colspan="7"><spring:message code="view.table.empty"/></td>
+						<td colspan="8"><spring:message code="view.table.empty"/></td>
 					</tr>
 					</c:when>
 					<c:otherwise>
 						<c:forEach var="document" items="${documents}" varStatus="loop">
 							<tr>
+								<td>${document.id}</td>
 								<td>${document.name}</td>
 								<td>${document.directory}</td>
 								<td>${document.dateUpload}</td>

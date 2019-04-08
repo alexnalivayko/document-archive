@@ -110,6 +110,18 @@ body {
     border-color:black;
 }
 
+.view-documents-block a {
+    display: inline;
+    text-decoration: none;
+    position: relative;
+    list-style-type: none;
+}
+
+.view-documents-block a:not(:first-child):not(.dropdown-item), .dropdown {
+    border-left: 2px solid gray;
+    padding: 1px 5px;
+}
+
 .view-tg {
     text-align:center;
     vertical-align:top
