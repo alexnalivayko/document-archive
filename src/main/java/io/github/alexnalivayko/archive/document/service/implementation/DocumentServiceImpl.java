@@ -185,8 +185,15 @@ public class DocumentServiceImpl implements DocumentService {
 		Path patternPath = PathConverter.getDocPathByType("Patterns");
 		File pathToDocumentPattern = new File(String.valueOf(patternPath));
 
+		if (!pathToDocumentPattern.exists()) {
+			log.info("Path '{}' is not created. Abort loading pattern documents...", pathToDocumentPattern);
+			return;
+		}
+
+		File[] filesInDirectory = pathToDocumentPattern.listFiles();
+		log.info("Found documents = {}", filesInDirectory.length);
 		if (pathToDocumentPattern.isDirectory()) {
-			for (File docPattern : pathToDocumentPattern.listFiles()) {
+			for (File docPattern : filesInDirectory) {
 				Document tempDoc = documentRepository.findByNameLike(docPattern.getName());
 
 				if (tempDoc == null) {
@@ -199,7 +206,7 @@ public class DocumentServiceImpl implements DocumentService {
 							.build();
 					documentRepository.save(tempDoc);
 				} else {
-					log.info("This document {} will be added before!", tempDoc.getName());
+					log.info("This document '{}' will be added before!", tempDoc.getName());
 				}
 			}
 		}

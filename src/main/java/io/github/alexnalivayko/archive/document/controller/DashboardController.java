@@ -146,6 +146,9 @@ public class DashboardController {
 			case "decree":
 				fillViewPage(model, documentService.getAllDocumentsByType(DocumentType.DECREE));
 				break;
+			case "pattern":
+				fillViewPage(model, documentService.getAllDocumentsByType(DocumentType.PATTERN));
+				break;
 			case "other":
 				fillViewPage(model, documentService.getAllDocumentsByType(DocumentType.OTHER));
 				break;
