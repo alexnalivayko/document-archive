@@ -1,19 +1,22 @@
 package io.github.alexnalivayko.archive.document.entity;
 
-import io.github.alexnalivayko.archive.document.utils.PathConverter;
 import io.github.alexnalivayko.archive.document.type.DocumentType;
 import io.github.alexnalivayko.archive.document.type.OriginalFormatType;
+import io.github.alexnalivayko.archive.document.utils.PathConverter;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.nio.file.Path;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Entity
 @Getter
 @Setter
+@Builder
 @Table(name = Document.TABLE_NAME)
 public class Document extends AbstractEntity implements Serializable {
 
@@ -31,7 +34,7 @@ public class Document extends AbstractEntity implements Serializable {
 	private OriginalFormatType originalFormatType;
 
 	@Column(name = "date_upload", updatable = false)
-	private Date dateUpload;
+	private String dateUpload = new SimpleDateFormat("dd-MM-YYYY HH:mm:ss").format(new Date());
 
 	@Column(name = "directory")
 	@Convert(converter = PathConverter.class)
@@ -44,14 +47,26 @@ public class Document extends AbstractEntity implements Serializable {
 	}
 
 	public Document(String name,
-	                DocumentType documentType,
-	                OriginalFormatType originalFormatType,
-	                Path directory,
-	                Long size) {
+					DocumentType documentType,
+					OriginalFormatType originalFormatType,
+					String dateUpload,
+					Path directory,
+					Long size) {
 		this.name = name;
 		this.documentType = documentType;
 		this.originalFormatType = originalFormatType;
-		this.dateUpload = new Date();
+		this.directory = directory;
+		this.size = size;
+	}
+
+	public Document(String name,
+					DocumentType documentType,
+					OriginalFormatType originalFormatType,
+					Path directory,
+					Long size) {
+		this.name = name;
+		this.documentType = documentType;
+		this.originalFormatType = originalFormatType;
 		this.directory = directory;
 		this.size = size;
 	}
