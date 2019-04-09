@@ -1,11 +1,12 @@
 body {
-    font-family:Arial, sans-serif;
-    font-size:14px;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
 }
 
 .footer {
     position: fixed;
-    left: 0; bottom: 0;
+    left: 0;
+    bottom: 0;
     padding: 8px;
     width: 99%;
 }
@@ -29,7 +30,7 @@ body {
 }
 
 .left-block {
-    width: 5%;
+    width: 15%;
     text-align: left;
     alignment: left;
 }
@@ -52,62 +53,63 @@ body {
     alignment: right;
 }
 
-.upload-tg  {
-    border-collapse:collapse;
-    border-spacing:0;
-    border:none;
+.upload-tg {
+    border-collapse: collapse;
+    border-spacing: 0;
+    border: none;
 }
 
 .upload-tg td {
-    padding:5px 10px;
-    border-style:solid;
-    border-width:0;
-    overflow:hidden;
-    word-break:normal;
+    padding: 5px 10px;
+    border-style: solid;
+    border-width: 0;
+    overflow: hidden;
+    word-break: normal;
 }
 
 .upload-tg th {
-    font-weight:normal;
-    padding:5px 10px;
-    border-style:solid;
-    border-width:0;
-    overflow:hidden;
-    word-break:normal;
-    text-align:left;
-    vertical-align:top;
+    font-weight: normal;
+    padding: 5px 10px;
+    border-style: solid;
+    border-width: 0;
+    overflow: hidden;
+    word-break: normal;
+    text-align: left;
+    vertical-align: top;
 }
 
 .max-size {
     width: 90%;
 }
 
-.view-tg  {
-    border-collapse:collapse;
-    border-spacing:0;
+.view-tg {
+    border-collapse: collapse;
+    border-spacing: 0;
     width: 100%;
 }
+
 .view-tg td {
-    padding:10px 5px;
-    border-style:solid;
-    border-width:0;
-    overflow:hidden;
-    word-break:normal;
-    text-align:center;
-    border-top-width:1px;
-    border-bottom-width:1px;
-    border-color:black;
+    padding: 10px 5px;
+    border-style: solid;
+    border-width: 0;
+    overflow: hidden;
+    word-break: normal;
+    text-align: center;
+    border-top-width: 1px;
+    border-bottom-width: 1px;
+    border-color: black;
 }
 
 .view-tg th {
-    font-weight:normal;
-    padding:10px 5px;
-    border-style:solid;
-    border-width:0;
-    overflow:hidden;
-    word-break:normal;
-    border-top-width:1px;
-    border-bottom-width:1px;
-    border-color:black;
+    font-weight: normal;
+    padding: 10px 5px;
+    border-style: solid;
+    border-width: 0;
+    overflow: hidden;
+    word-break: normal;
+    border-top-width: 1px;
+    border-bottom-width: 1px;
+    border-color: black;
 }
 
 .view-documents-block a {
@@ -123,6 +125,6 @@ body {
 }
 
 .view-tg {
-    text-align:center;
-    vertical-align:top
+    text-align: center;
+    vertical-align: top
 }

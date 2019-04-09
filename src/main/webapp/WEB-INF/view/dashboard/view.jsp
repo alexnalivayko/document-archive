@@ -21,38 +21,47 @@
 				<p><spring:message code="view.delete.filename"/> ${error}</p>
 			</div>
 		</c:if>
-		<div class="view-documents-block">
-			<a href="<c:url value="/dashboard/view/invoice/all"/>">
-				<spring:message code="upload.form.select.document-type.invoice"/>
-			</a>
-			<a href="<c:url value="/dashboard/view/packing-list/all"/>">
-				<spring:message code="upload.form.select.document-type.packing-list"/>
-			</a>
-			<a href="<c:url value="/dashboard/view/bill-for-payment/all"/>">
-				<spring:message code="upload.form.select.document-type.bill-for-payment"/>
-			</a>
-			<a href="<c:url value="/dashboard/view/contract/all"/>">
-				<spring:message code="upload.form.select.document-type.contract"/>
-			</a>
-			<a href="<c:url value="/dashboard/view/acceptance-act/all"/>">
-				<spring:message code="upload.form.select.document-type.acceptance-act"/>
-			</a>
-			<a href="<c:url value="/dashboard/view/payment/all"/>">
-				<spring:message code="upload.form.select.document-type.payment"/>
-			</a>
-			<a href="<c:url value="/dashboard/view/founding-document/all"/>">
-				<spring:message code="upload.form.select.document-type.founding-document"/>
-			</a>
-			<a href="<c:url value="/dashboard/view/protocol/all"/>">
-				<spring:message code="upload.form.select.document-type.protocol"/>
-			</a>
-			<a href="<c:url value="/dashboard/view/decree/all"/>">
-				<spring:message code="upload.form.select.document-type.decree"/>
-			</a>
-			<a href="<c:url value="/dashboard/view/other/all"/>">
-				<spring:message code="upload.form.select.document-type.other"/>
-			</a>
+		<div>
+			<table>
+				<tr>
+					<td class="left-block">
+						<a href="<c:url value="/dashboard/view/invoice/all"/>">
+							<spring:message code="upload.form.select.document-type.invoice"/>
+						</a>
+						<a href="<c:url value="/dashboard/view/packing-list/all"/>">
+							<spring:message code="upload.form.select.document-type.packing-list"/>
+						</a>
+						<a href="<c:url value="/dashboard/view/bill-for-payment/all"/>">
+							<spring:message code="upload.form.select.document-type.bill-for-payment"/>
+						</a>
+						<a href="<c:url value="/dashboard/view/contract/all"/>">
+							<spring:message code="upload.form.select.document-type.contract"/>
+						</a>
+						<a href="<c:url value="/dashboard/view/acceptance-act/all"/>">
+							<spring:message code="upload.form.select.document-type.acceptance-act"/>
+						</a>
+						<a href="<c:url value="/dashboard/view/payment/all"/>">
+							<spring:message code="upload.form.select.document-type.payment"/>
+						</a>
+						<a href="<c:url value="/dashboard/view/founding-document/all"/>">
+							<spring:message code="upload.form.select.document-type.founding-document"/>
+						</a>
+						<a href="<c:url value="/dashboard/view/protocol/all"/>">
+							<spring:message code="upload.form.select.document-type.protocol"/>
+						</a>
+						<a href="<c:url value="/dashboard/view/decree/all"/>">
+							<spring:message code="upload.form.select.document-type.decree"/>
+						</a>
+						<a href="<c:url value="/dashboard/view/other/all"/>">
+							<spring:message code="upload.form.select.document-type.other"/>
+						</a>
+					</td>
+					<td class="right-block">
+					</td>
+				</tr>
+			</table>
 		</div>
+
 		<br/>
 		<div>
 			<table class="view-tg">
