@@ -13,7 +13,7 @@
 
 	<groupId>io.github.alexnalivayko</groupId>
 	<artifactId>document-archive</artifactId>
-	<version>0.0.2</version>
+	<version>0.1.0-BETA</version>
 	<packaging>war</packaging>
 
 	<name>Document Archive</name>
