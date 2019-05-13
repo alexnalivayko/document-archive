@@ -12,14 +12,6 @@ INSTALLATION
 
 In progress
 
-DEMO SERVER
-------------
-
-http://40.118.126.187:8080/
-
-- login: user
-- password: password
-
 REQUIREMENTS
 ------------
 
