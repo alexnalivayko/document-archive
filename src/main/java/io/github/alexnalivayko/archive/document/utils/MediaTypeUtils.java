@@ -12,7 +12,7 @@ public class MediaTypeUtils {
 		// application/pdf
 		// application/xml
 		// image/gif, ...
-		String mineType = servletContext.getMimeType(fileName);
+		String mineType = servletContext.getMimeType(fileName) + ";charset=UTF-8";
 		try {
 			return MediaType.parseMediaType(mineType);
 		} catch (Exception e) {
