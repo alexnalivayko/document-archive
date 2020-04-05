@@ -23,16 +23,12 @@ public class AuthenticationSuccessHandlerImpl implements AuthenticationSuccessHa
 	private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 
 	@Override
-	public void onAuthenticationSuccess(HttpServletRequest request,
-										HttpServletResponse response,
-										Authentication authentication) throws IOException {
+	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException {
 		handle(request, response, authentication);
 		clearAuthenticationAttributes(request);
 	}
 
-	private void handle(HttpServletRequest request,
-						HttpServletResponse response,
-						Authentication authentication) throws IOException {
+	private void handle(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException {
 
 		String targetUrl = determineTargetUrl(authentication);
 
@@ -45,11 +41,10 @@ public class AuthenticationSuccessHandlerImpl implements AuthenticationSuccessHa
 	}
 
 	private String determineTargetUrl(Authentication authentication) {
-
 		Collection<String> authorities = authentication.getAuthorities()
-														.stream()
-														.map(Object::toString)
-														.collect(Collectors.toSet());
+				.stream()
+				.map(Object::toString)
+				.collect(Collectors.toSet());
 
 		if (authorities.contains("ROLE_ADMIN"))
 			return "/dashboard/admin";

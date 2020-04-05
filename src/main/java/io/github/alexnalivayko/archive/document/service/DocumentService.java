@@ -11,7 +11,7 @@ import java.nio.file.Path;
 import java.util.Collection;
 import java.util.List;
 
-public interface DocumentService extends AbstractService {
+public interface DocumentService extends AbstractService<Document> {
 
 	@Override
 	Document create();
@@ -40,7 +40,7 @@ public interface DocumentService extends AbstractService {
 	Document getByName(String name);
 
 	@Override
-	Collection getAll();
+	Collection<Document> getAll();
 
 	List<Document> getAllDocumentsByType(DocumentType type);
 
@@ -49,5 +49,4 @@ public interface DocumentService extends AbstractService {
 	void setDocumentDirectoryByType(DocumentType documentType, Document document);
 
 	File convertMultipartFileToFile(MultipartFile file) throws IOException;
-
 }

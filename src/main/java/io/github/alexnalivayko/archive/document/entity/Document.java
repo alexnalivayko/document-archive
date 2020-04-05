@@ -3,8 +3,10 @@ package io.github.alexnalivayko.archive.document.entity;
 import io.github.alexnalivayko.archive.document.type.DocumentType;
 import io.github.alexnalivayko.archive.document.type.OriginalFormatType;
 import io.github.alexnalivayko.archive.document.utils.PathConverter;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
@@ -17,6 +19,8 @@ import java.util.Date;
 @Getter
 @Setter
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = Document.TABLE_NAME)
 public class Document extends AbstractEntity implements Serializable {
 
@@ -34,7 +38,7 @@ public class Document extends AbstractEntity implements Serializable {
 	private OriginalFormatType originalFormatType;
 
 	@Column(name = "date_upload", updatable = false)
-	private String dateUpload = new SimpleDateFormat("dd-MM-YYYY HH:mm:ss").format(new Date());
+	private String dateUpload;
 
 	@Column(name = "directory")
 	@Convert(converter = PathConverter.class)
@@ -42,32 +46,4 @@ public class Document extends AbstractEntity implements Serializable {
 
 	@Column(name = "size", nullable = false)
 	private Long size;
-
-	public Document() {
-	}
-
-	public Document(String name,
-					DocumentType documentType,
-					OriginalFormatType originalFormatType,
-					String dateUpload,
-					Path directory,
-					Long size) {
-		this.name = name;
-		this.documentType = documentType;
-		this.originalFormatType = originalFormatType;
-		this.directory = directory;
-		this.size = size;
-	}
-
-	public Document(String name,
-					DocumentType documentType,
-					OriginalFormatType originalFormatType,
-					Path directory,
-					Long size) {
-		this.name = name;
-		this.documentType = documentType;
-		this.originalFormatType = originalFormatType;
-		this.directory = directory;
-		this.size = size;
-	}
 }

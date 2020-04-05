@@ -13,7 +13,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.*;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.nio.file.Path;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -41,11 +45,7 @@ public class DocumentServiceImpl implements DocumentService {
 	}
 
 	@Override
-	public Document createWithParameters(String name,
-										 DocumentType documentType,
-										 OriginalFormatType originalFormatType,
-										 Path directory,
-										 Long size) {
+	public Document createWithParameters(String name, DocumentType documentType, OriginalFormatType originalFormatType, Path directory, Long size) {
 		return Document.builder()
 				.name(name)
 				.documentType(documentType)
@@ -56,20 +56,17 @@ public class DocumentServiceImpl implements DocumentService {
 	}
 
 	@Override
-	public Document createFromFile(MultipartFile uploadFile,
-	                               OriginalFormatType originalFormatType,
-	                               DocumentType documentType) {
+	public Document createFromFile(MultipartFile uploadFile, OriginalFormatType originalFormatType, DocumentType documentType) {
 		return Document.builder()
 				.documentType(documentType)
 				.originalFormatType(originalFormatType)
+				.dateUpload(new SimpleDateFormat("dd-MM-YYYY HH:mm:ss").format(new Date()))
 				.size(uploadFile.getSize())
 				.build();
 	}
 
 	@Override
-	public void uploadDocument(MultipartFile uploadFile,
-	                           String customFileName,
-	                           Document document) throws Exception {
+	public void uploadDocument(MultipartFile uploadFile, String customFileName, Document document) throws Exception {
 		byte[] docBytes = uploadFile.getBytes();
 
 		if (customFileName == null || customFileName.equals("")) {
