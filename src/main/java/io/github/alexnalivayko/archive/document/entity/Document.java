@@ -12,8 +12,6 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.nio.file.Path;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 @Entity
 @Getter

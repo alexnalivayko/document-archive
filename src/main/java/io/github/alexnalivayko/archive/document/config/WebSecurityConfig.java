@@ -19,12 +19,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
+		// TODO edit
 		http.authorizeRequests()
 				.requestMatchers()
 				.denyAll()
 				.antMatchers("/console")
 				.access("hasRole('ADMIN')")
-				.antMatchers("/static/**")
+				.antMatchers("/static/**", "/dashboard/admin")
 				.permitAll()
 				.anyRequest()
 				.access("hasRole('USER')")
