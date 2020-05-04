@@ -213,7 +213,8 @@ public class DashboardController {
 
 	@Autowired
 	public DashboardController(DocumentServiceImpl documentService,
-							   ServletContext servletContext, DefaultCryptoUtils defaultCryptoUtils) {
+							   ServletContext servletContext,
+							   DefaultCryptoUtils defaultCryptoUtils) {
 		this.documentService = documentService;
 		this.servletContext = servletContext;
 		this.defaultCryptoUtils = defaultCryptoUtils;
