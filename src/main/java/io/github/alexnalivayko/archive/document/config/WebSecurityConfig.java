@@ -25,7 +25,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.denyAll()
 				.antMatchers("/console")
 				.access("hasRole('ADMIN')")
-				.antMatchers("/static/**", "/dashboard/admin")
+				.antMatchers("/static/**")
 				.permitAll()
 				.anyRequest()
 				.access("hasRole('USER')")
@@ -63,7 +63,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.withDefaultPasswordEncoder()
 				.username("admin")
 				.password("password")
-				.roles("ADMIN")
+				.roles("USER", "ADMIN")
 				.build());
 
 		return manager;

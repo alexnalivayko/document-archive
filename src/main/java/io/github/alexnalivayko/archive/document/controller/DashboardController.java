@@ -1,6 +1,7 @@
 package io.github.alexnalivayko.archive.document.controller;
 
 import io.github.alexnalivayko.archive.document.entity.Document;
+import io.github.alexnalivayko.archive.document.model.DocumentGenerator;
 import io.github.alexnalivayko.archive.document.service.implementation.DocumentServiceImpl;
 import io.github.alexnalivayko.archive.document.type.DocumentType;
 import io.github.alexnalivayko.archive.document.type.OriginalFormatType;
@@ -20,13 +21,16 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.ServletContext;
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -35,45 +39,47 @@ import java.util.Map;
 
 @Slf4j
 @Controller
+@RequestMapping("/dashboard")
 public class DashboardController {
 
-	private final DocumentServiceImpl documentService;
+	private final DocumentServiceImpl documentService; // В планах отказаться от исп. данного сервиса тут
 
 	private final ServletContext servletContext;
-
 	private final DefaultCryptoUtils defaultCryptoUtils;
+	private final Map<String, DocumentGenerator> allDocuments;
 
-	@GetMapping({"/dashboard/", "/dashboard/index"})
+	@GetMapping({"/", "/index"})
 	public String dashboardPage(Map model) {
 		return "dashboard/index";
 	}
 
-	@GetMapping(path = {"/", "/dashboard/login"})
+	@GetMapping("/login")
 	public String loginPage() {
 		return "dashboard/login";
 	}
 
-	@GetMapping("/dashboard/upload")
+	@GetMapping("/upload")
 	public String uploadDocument(Map model) {
 		fillUploadPage(model);
 
 		return "dashboard/upload";
 	}
 
-	@GetMapping("/dashboard/patterns")
+	// TODO
+	@GetMapping("/patterns")
 	public String downloadDocumentPatterns(Map model) {
-		model.put("patterns", documentService.getAllDocumentsByType(DocumentType.PATTERN));
+		model.put("patterns", allDocuments.get("pattern").findAll());
 
 		return "dashboard/patterns";
 	}
 
-	@PostMapping("/dashboard/upload")
+	@PostMapping("/upload")
 	public String sendFileToServer(@RequestParam("fileName") String customFileName,
-	                               @RequestParam MultipartFile[] uploadFiles,
-	                               @RequestParam DocumentType documentType,
-	                               @RequestParam OriginalFormatType originalFormatType,
-	                               @RequestParam(defaultValue = "false") boolean neededPackageToZip,
-	                               Map model) {
+								   @RequestParam MultipartFile[] uploadFiles,
+								   @RequestParam DocumentType documentType,
+								   @RequestParam OriginalFormatType originalFormatType,
+								   @RequestParam(defaultValue = "false") boolean neededPackageToZip,
+								   Map model) {
 		if (neededPackageToZip) {
 			try {
 				File uploadZip = documentService.packageDocumentsToZip(uploadFiles, customFileName);
@@ -113,53 +119,20 @@ public class DashboardController {
 		return "dashboard/upload";
 	}
 
-	@GetMapping("/dashboard/view/{scope}/all")
+	@GetMapping("/view/{scope}/all")
 	public String viewAllDocuments(@PathVariable String scope, Map model) {
-		switch (scope) {
-			case "all":
-				fillViewPage(model, documentService.getAll());
-				break;
-			case "invoice":
-				fillViewPage(model, documentService.getAllDocumentsByType(DocumentType.INVOICE));
-				break;
-			case "packing-list":
-				fillViewPage(model, documentService.getAllDocumentsByType(DocumentType.PACKING_LIST));
-				break;
-			case "bill-for-payment":
-				fillViewPage(model, documentService.getAllDocumentsByType(DocumentType.BILL_FOR_PAYMENT));
-				break;
-			case "contract":
-				fillViewPage(model, documentService.getAllDocumentsByType(DocumentType.CONTRACT));
-				break;
-			case "acceptance-act":
-				fillViewPage(model, documentService.getAllDocumentsByType(DocumentType.ACCEPTANCE_ACT));
-				break;
-			case "payment":
-				fillViewPage(model, documentService.getAllDocumentsByType(DocumentType.PAYMENT));
-				break;
-			case "founding-document":
-				fillViewPage(model, documentService.getAllDocumentsByType(DocumentType.FOUNDING_DOCUMENT));
-				break;
-			case "protocol":
-				fillViewPage(model, documentService.getAllDocumentsByType(DocumentType.PROTOCOL));
-				break;
-			case "decree":
-				fillViewPage(model, documentService.getAllDocumentsByType(DocumentType.DECREE));
-				break;
-			case "pattern":
-				fillViewPage(model, documentService.getAllDocumentsByType(DocumentType.PATTERN));
-				break;
-			case "other":
-				fillViewPage(model, documentService.getAllDocumentsByType(DocumentType.OTHER));
-				break;
-			default:
-				throw new IllegalArgumentException();
+		DocumentGenerator documentGenerator = allDocuments.get(scope);
+
+		if (documentGenerator == null) {
+			throw new UnsupportedOperationException(scope + " is not supported yet");
 		}
+
+		fillViewPage(model, documentGenerator.findAll());
 
 		return "dashboard/view";
 	}
 
-	@GetMapping("/dashboard/delete/{id}")
+	@GetMapping("/delete/{id}")
 	public String deleteDocument(@PathVariable Long id, Map model) {
 		Document findDoc = documentService.getById(id);
 
@@ -179,7 +152,7 @@ public class DashboardController {
 		return "dashboard/view";
 	}
 
-	@GetMapping("/dashboard/download/{filename}")
+	@GetMapping("/download/{filename}")
 	public ResponseEntity<ByteArrayResource> downloadDocument(@PathVariable("filename") String fileName) throws Exception {
 		Document tempDoc = documentService.getByName(fileName);
 
@@ -214,9 +187,11 @@ public class DashboardController {
 	@Autowired
 	public DashboardController(DocumentServiceImpl documentService,
 							   ServletContext servletContext,
-							   DefaultCryptoUtils defaultCryptoUtils) {
+							   DefaultCryptoUtils defaultCryptoUtils,
+							   Map<String, DocumentGenerator> allDocuments) {
 		this.documentService = documentService;
 		this.servletContext = servletContext;
 		this.defaultCryptoUtils = defaultCryptoUtils;
+		this.allDocuments = allDocuments;
 	}
 }
